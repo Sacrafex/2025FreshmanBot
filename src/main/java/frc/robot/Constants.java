@@ -15,7 +15,7 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double stickDeadband = 0.1;
 
-    public static final String canBusName = "CAN1"; //TODO: Potential Issue?
+    public static final String canBusName = "CAN1"; //TODO: Likely the Issue ( Resultion: Fix in Phoenix Tuner)
 
     public static final class Swerve {
         public static final int pigeonID = 30;
@@ -113,7 +113,7 @@ public final class Constants {
         /* Back Left Module - Module 2 */
         public static final class Mod2 {
             public static final int driveMotorID = 49;
-            public static final int angleMotorID =55;
+            public static final int angleMotorID = 55;
             public static final int canCoderID = 59;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);
             public static final SwerveModuleConstants constants = 
