@@ -72,7 +72,7 @@ public class RobotContainer {
             CommandScheduler.getInstance().schedule(intakePivot);
         })).onFalse(new InstantCommand(() -> {
             IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 0);
-            intakePivot.shoot(shooterSpeedLimit);
+            intakePivot.shoot(0);
             CommandScheduler.getInstance().schedule(intakePivot);
         }));
 
@@ -83,7 +83,7 @@ public class RobotContainer {
             CommandScheduler.getInstance().schedule(intakePivot);
         })).onFalse(new InstantCommand(() -> {
             IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 0);
-            intakePivot.intake(shooterSpeedLimit);
+            intakePivot.intake(0);
             CommandScheduler.getInstance().schedule(intakePivot);
         }));
 
