@@ -1,13 +1,13 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
+//import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.autos.exampleAuto;
+import frc.robot.autos.move;
 import frc.robot.commands.IntakePivot;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Swerve;
@@ -27,7 +27,7 @@ public class RobotContainer {
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
-    double shooterSpeedLimit = 0.7;
+    double shooterSpeedLimit = 0.5;
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
@@ -36,14 +36,14 @@ public class RobotContainer {
     private final JoystickButton anglePivotUp = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton anglePivotDown = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     // Shooting and Intake Buttons
+
     private final JoystickButton shoot = new JoystickButton(driver, XboxController.Button.kA.value);
+    // Shoots Forward
     private final JoystickButton intake = new JoystickButton(driver, XboxController.Button.kB.value);
-
-
+    // Shoots Opposite Forward
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -59,55 +59,47 @@ public class RobotContainer {
             )
         );
 
-        // Shoot
+        configureButtonBindings();
+    }
+
+    private void configureButtonBindings() {
+        /* Driver Buttons */
+        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+
         shoot.whileTrue(new InstantCommand(() -> {
             IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 0);
-            intakePivot.shoot(1);
+            intakePivot.shoot(shooterSpeedLimit);
             CommandScheduler.getInstance().schedule(intakePivot);
         })).onFalse(new InstantCommand(() -> {
             IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 0);
-            intakePivot.shoot(0);
+            intakePivot.shoot(shooterSpeedLimit);
             CommandScheduler.getInstance().schedule(intakePivot);
         }));
 
         // Intake
         intake.whileTrue(new InstantCommand(() -> {
             IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 0);
-            intakePivot.intake(1);
+            intakePivot.intake(shooterSpeedLimit);
             CommandScheduler.getInstance().schedule(intakePivot);
         })).onFalse(new InstantCommand(() -> {
             IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 0);
-            intakePivot.intake(0);
+            intakePivot.intake(shooterSpeedLimit);
             CommandScheduler.getInstance().schedule(intakePivot);
         }));
 
         // Angle Pivot Up
         anglePivotUp.onTrue(new InstantCommand(() -> {
             IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 0);
-            intakePivot.increasePosition();
+            intakePivot.increasePivotStage();
             CommandScheduler.getInstance().schedule(intakePivot);
         }));
 
         // Angle Pivot Down
         anglePivotDown.onTrue(new InstantCommand(() -> {
             IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 1);
-            intakePivot.increasePosition();
+            intakePivot.decreasePivotStage();
             CommandScheduler.getInstance().schedule(intakePivot);
         }));
-
-        // Configure the button bindings
-        configureButtonBindings();
-    }
-
-    /**
-     * Use this method to define your button->command mappings. Buttons can be created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
-    private void configureButtonBindings() {
-        /* Driver Buttons */
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
     }
 
     /**
@@ -117,6 +109,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new exampleAuto(s_Swerve);
+        return new move(s_Swerve);
     }
 }
