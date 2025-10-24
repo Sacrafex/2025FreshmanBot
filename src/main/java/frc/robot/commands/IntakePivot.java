@@ -24,8 +24,9 @@ public class IntakePivot extends Command {
 
     private int pivotStage;
     
-    public IntakePivot(double shooterSpeed, int pivotStage) {
-        this.pivotStage = pivotStage;
+    public IntakePivot(double shooterSpeed) {
+        shooterSpeedLimiter = shooterSpeed;
+        addRequirements();
     }
 
     @Override

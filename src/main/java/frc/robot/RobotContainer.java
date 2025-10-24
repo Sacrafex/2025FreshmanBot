@@ -67,36 +67,36 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 
         shoot.whileTrue(new InstantCommand(() -> {
-            IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 0);
+            IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit);
             intakePivot.shoot(shooterSpeedLimit);
             CommandScheduler.getInstance().schedule(intakePivot);
         })).onFalse(new InstantCommand(() -> {
-            IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 0);
+            IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit);
             intakePivot.shoot(0);
             CommandScheduler.getInstance().schedule(intakePivot);
         }));
 
         // Intake
         intake.whileTrue(new InstantCommand(() -> {
-            IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 0);
+            IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit);
             intakePivot.intake(shooterSpeedLimit);
             CommandScheduler.getInstance().schedule(intakePivot);
         })).onFalse(new InstantCommand(() -> {
-            IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 0);
-            intakePivot.intake(0);
+            IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit);
+            intakePivot.intake(shooterSpeedLimit);
             CommandScheduler.getInstance().schedule(intakePivot);
         }));
 
         // Angle Pivot Up
         anglePivotUp.onTrue(new InstantCommand(() -> {
-            IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 0);
+            IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit);
             intakePivot.increasePivotStage();
             CommandScheduler.getInstance().schedule(intakePivot);
         }));
 
         // Angle Pivot Down
         anglePivotDown.onTrue(new InstantCommand(() -> {
-            IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit, 1);
+            IntakePivot intakePivot = new IntakePivot(shooterSpeedLimit);
             intakePivot.decreasePivotStage();
             CommandScheduler.getInstance().schedule(intakePivot);
         }));
